@@ -1,0 +1,58 @@
+type User {
+  id: ID! @id
+  name: String! @unique
+  email: String
+  phone: String!
+  services: [Service!]!
+  soldHistory: [SoldHistory!]!
+  boughHistory: [BoughHistory!]!
+}
+
+type Service {
+  id: ID! @id
+  title: String!
+  description: String!
+  address: String!
+  price: Int!
+  done: Boolean! @default(value: false)
+  timeToDo: String!
+  created: String!
+  tenders: [Tender!]!
+  user: User @relation(link: INLINE)
+  category: Category @relation(link: INLINE)
+  comments: [Comment!]!
+}
+
+type Category {
+  id: ID! @id
+  title: String!
+  services: [Service!]!
+}
+
+type SoldHistory {
+  id: ID! @id
+  service: Service @relation(link: INLINE)
+  user: User @relation(link: INLINE)
+}
+
+type BoughHistory {
+  id: ID! @id
+  service: Service @relation(link: INLINE)
+  user: User @relation(link: INLINE)
+}
+
+type Comment {
+  id: ID! @id
+  message: String!
+  user: User @relation(link: INLINE)
+  service: Service @relation(link: INLINE)
+}
+
+type Tender {
+  id: ID! @id
+  service: Service @relation(link: INLINE)
+  price: Int!
+  user: User @relation(linl: INLINE)
+  comment: String!
+  accept: Boolean! @default(value: false)
+}

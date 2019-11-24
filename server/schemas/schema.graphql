@@ -1,0 +1,82 @@
+type Query {
+  user(name: String!): User
+  searchServices(search: String!) : [Service!]! 
+  users: [User!]!
+  service(serviceId: ID!): Service
+  services(lastServiceId: ID!, pagination: Int!): [Service!]!
+  servicesByUser(userId: ID!): [Service!]!
+  categories: [Category!]!
+  paginationUser(id: String!): [User!]!
+}
+
+type Mutation {
+  acceptTender(tenderId: ID!, price: Int!) : Tender
+  doneService(serviceId: ID!) : Service
+  createUser(name: String!, phone: String!): User
+  createService(title: String!, userId: ID!, categoryId: ID!, price: Int!, created: String!, timeToDo: String!, description: String!, address: String!): Service
+  createCategory(title: String!): Category
+  updateUser(title: String!, id: ID!): User
+  updateCategory(title: String!, id: ID!): Category
+  updateService(title: String!, id: ID!): Service
+  buyService(buyerId: ID!, sellerId: ID!, serviceId: ID!): BoughHistory
+  createTender(buyerId: ID!, serviceId: ID!, price: Int!, comment: String!): Tender
+}
+
+type User {
+  id: ID!
+  email: String
+  name: String!
+  phone: String!
+  services: [Service!]!
+  soldHistories: [SoldHistory!]!
+  boughHistories: [BoughHistory!]!
+}
+
+type Service {
+  id: ID!
+  title: String!
+  description: String!
+  address: String!
+  timeToDo: String!
+  created: String!
+  done: Boolean!
+  user: User!
+  price: Int!
+  category: Category!
+  tenders: [Tender!]!
+}
+
+type Category {
+  id: ID!
+  title: String!
+  services: [Service!]!
+}
+
+type SoldHistory {
+  id: ID!
+  service: Service
+  user: User
+}
+
+type BoughHistory {
+  id: ID!
+  service: Service
+  user: User
+}
+
+type Comment {
+  id: ID!
+  service: Service
+  user: User
+  message: String!
+}
+
+type Tender {
+  id: ID!
+  user: User
+  price: Int!
+  service: Service
+  comment: String!
+  accept: Boolean!
+}
+
